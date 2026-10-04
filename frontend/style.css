@@ -1,0 +1,2095 @@
+
+/* ============================================================
+   NEUROHOME — EEG BCI RESEARCH PROTOTYPE
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #060b14;
+    --bg-secondary: #0a1220;
+    --card: rgba(13, 24, 40, 0.82);
+    --card-border: rgba(83, 211, 255, 0.14);
+
+    --cyan: #42d9ff;
+    --cyan-bright: #76e7ff;
+    --blue: #4d7cff;
+    --green: #42e6a4;
+    --yellow: #ffd166;
+    --red: #ff647c;
+
+    --text: #edf8ff;
+    --text-secondary: #9db0c4;
+    --text-muted: #64758a;
+
+    --radius: 20px;
+}
+
+/* ============================================================
+   BODY
+   ============================================================ */
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(66, 217, 255, 0.08),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(77, 124, 255, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #040810 0%,
+            #07101c 50%,
+            #050b14 100%
+        );
+
+    color: var(--text);
+    font-family:
+        Inter,
+        Segoe UI,
+        Roboto,
+        Arial,
+        sans-serif;
+
+    overflow-x: hidden;
+}
+
+/* ============================================================
+   BACKGROUND GLOW
+   ============================================================ */
+
+.background-glow {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    filter: blur(110px);
+
+    opacity: 0.12;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+.glow-one {
+    top: -180px;
+    left: -120px;
+    background: var(--cyan);
+}
+
+.glow-two {
+    right: -180px;
+    bottom: -160px;
+    background: var(--blue);
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+
+.navbar {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 22px 6vw;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    background: rgba(4, 9, 17, 0.72);
+
+    backdrop-filter: blur(18px);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(66, 217, 255, 0.18),
+            rgba(77, 124, 255, 0.18)
+        );
+
+    border: 1px solid rgba(66, 217, 255, 0.25);
+
+    color: var(--cyan);
+
+    font-size: 24px;
+
+    box-shadow:
+        0 0 25px rgba(66, 217, 255, 0.08);
+}
+
+.brand h1 {
+    font-size: 21px;
+    letter-spacing: 0.5px;
+}
+
+.brand p {
+    margin-top: 3px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 9px 14px;
+
+    border-radius: 999px;
+
+    background: rgba(66, 230, 164, 0.06);
+
+    border: 1px solid rgba(66, 230, 164, 0.16);
+
+    color: var(--green);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 10px rgba(66, 230, 164, 0.8);
+
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.45;
+        transform: scale(0.78);
+    }
+}
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
+
+.container {
+    width: min(1180px, 88%);
+
+    margin: 0 auto;
+
+    padding: 65px 0 50px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+    padding: 20px 0 55px;
+
+    max-width: 850px;
+}
+
+.eyebrow {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    margin-bottom: 20px;
+
+    border-radius: 999px;
+
+    background: rgba(66, 217, 255, 0.06);
+
+    border: 1px solid rgba(66, 217, 255, 0.14);
+
+    color: var(--cyan);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.hero h2 {
+    font-size: clamp(42px, 6vw, 72px);
+
+    line-height: 1.03;
+
+    letter-spacing: -2.5px;
+
+    margin-bottom: 22px;
+}
+
+.hero h2 span {
+    color: var(--cyan);
+
+    text-shadow:
+        0 0 35px rgba(66, 217, 255, 0.18);
+}
+
+.hero p {
+    max-width: 700px;
+
+    color: var(--text-secondary);
+
+    font-size: 17px;
+
+    line-height: 1.75;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+
+.card,
+.stat-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16, 30, 49, 0.9),
+            rgba(8, 17, 30, 0.84)
+        );
+
+    border: 1px solid var(--card-border);
+
+    border-radius: var(--radius);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(18px);
+}
+
+.card {
+    padding: 26px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.card:hover,
+.stat-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(66, 217, 255, 0.28);
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.32);
+}
+
+/* ============================================================
+   DASHBOARD GRID
+   ============================================================ */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.65fr)
+        minmax(300px, 0.85fr);
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+/* ============================================================
+   CARD HEADER
+   ============================================================ */
+
+.card-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.card-label {
+    display: block;
+
+    color: var(--cyan);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.7px;
+
+    margin-bottom: 8px;
+}
+
+.card h3 {
+    font-size: 23px;
+
+    letter-spacing: -0.4px;
+}
+
+.channel-badge {
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    background: rgba(66, 217, 255, 0.07);
+
+    border: 1px solid rgba(66, 217, 255, 0.13);
+
+    color: var(--cyan-bright);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+/* ============================================================
+   EEG CHART
+   ============================================================ */
+
+.chart-container {
+    height: 300px;
+
+    margin-top: 24px;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(2, 8, 16, 0.75),
+            rgba(5, 14, 24, 0.65)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.chart-footer {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 17px;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+.chart-footer strong {
+    color: var(--text-secondary);
+
+    margin-right: 18px;
+}
+
+/* ============================================================
+   PREDICTION
+   ============================================================ */
+
+.prediction-card {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-height: 390px;
+}
+
+.prediction-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 20px 0;
+
+    border-radius: 20px;
+
+    background: rgba(66, 217, 255, 0.07);
+
+    border: 1px solid rgba(66, 217, 255, 0.15);
+
+    color: var(--cyan);
+
+    font-size: 31px;
+
+    box-shadow:
+        0 0 30px rgba(66, 217, 255, 0.06);
+}
+
+.prediction-card h3 {
+    font-size: 31px;
+
+    margin-bottom: 9px;
+}
+
+.prediction-card > p {
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    max-width: 310px;
+}
+
+.confidence-section {
+    margin-top: 32px;
+}
+
+.confidence-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+.confidence-header strong {
+    color: var(--cyan);
+
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 9px;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.progress {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--cyan)
+        );
+
+    box-shadow:
+        0 0 15px rgba(66, 217, 255, 0.35);
+
+    transition: width 0.7s ease;
+}
+
+/* ============================================================
+   UPLOAD
+   ============================================================ */
+
+.upload-card {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 20px;
+}
+
+.upload-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+.upload-icon {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: rgba(77, 124, 255, 0.09);
+
+    border: 1px solid rgba(77, 124, 255, 0.18);
+
+    color: var(--blue);
+
+    font-size: 24px;
+}
+
+.upload-card h3 {
+    margin-bottom: 6px;
+
+    font-size: 18px;
+}
+
+.upload-card p {
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+.primary-button {
+    border: none;
+
+    border-radius: 11px;
+
+    padding: 13px 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--cyan)
+        );
+
+    color: #03101a;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(66, 217, 255, 0.2);
+}
+
+.file-name {
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    min-width: 120px;
+
+    text-align: right;
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    padding: 21px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.stat-card span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    margin-bottom: 13px;
+}
+
+.stat-card strong {
+    display: block;
+
+    font-size: 26px;
+
+    margin-bottom: 7px;
+}
+
+.stat-card small {
+    color: var(--text-muted);
+
+    font-size: 11px;
+}
+
+.stat-card.highlight {
+    border-color: rgba(66, 230, 164, 0.18);
+}
+
+.stat-card.highlight strong {
+    color: var(--green);
+}
+
+/* ============================================================
+   MODEL CARD
+   ============================================================ */
+
+.model-card {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 35px;
+
+    margin-bottom: 20px;
+}
+
+.model-card p {
+    max-width: 590px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    margin-top: 12px;
+}
+
+.architecture {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    min-width: 420px;
+}
+
+.architecture span {
+    padding: 9px 12px;
+
+    border-radius: 9px;
+
+    background: rgba(66, 217, 255, 0.06);
+
+    border: 1px solid rgba(66, 217, 255, 0.13);
+
+    color: var(--cyan-bright);
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.architecture i {
+    color: var(--text-muted);
+
+    font-style: normal;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+    width: min(1180px, 88%);
+
+    margin: 0 auto;
+
+    padding: 25px 0 35px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+}
+
+footer span {
+    color: var(--cyan);
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .model-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .architecture {
+        min-width: 0;
+
+        justify-content: flex-start;
+    }
+
+    .upload-card {
+        flex-wrap: wrap;
+    }
+
+    .file-name {
+        text-align: left;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 16px 5%;
+    }
+
+    .brand p {
+        display: none;
+    }
+
+    .system-status {
+        font-size: 9px;
+
+        padding: 8px 10px;
+    }
+
+    .container {
+        width: 90%;
+
+        padding-top: 40px;
+    }
+
+    .hero h2 {
+        font-size: 43px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-footer {
+        flex-wrap: wrap;
+    }
+
+    .upload-content {
+        align-items: flex-start;
+    }
+
+    footer {
+        flex-direction: column;
+    }
+}
+
+
+/* ============================================================
+   SMART HOME CONTROL
+   ============================================================ */
+
+.smart-home-card {
+    margin-top: 24px;
+}
+
+.home-status {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* ============================================================
+   APPLIANCE
+   ============================================================ */
+
+.appliance {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    margin-top: 20px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* ============================================================
+   LIGHT VISUAL
+   ============================================================ */
+
+.appliance-visual {
+    width: 90px;
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+}
+
+
+.light-bulb {
+    font-size: 52px;
+
+    filter: grayscale(1);
+    opacity: 0.35;
+
+    transition:
+        filter 0.5s ease,
+        opacity 0.5s ease,
+        transform 0.5s ease,
+        text-shadow 0.5s ease;
+}
+
+
+/* ============================================================
+   LIGHT OFF
+   ============================================================ */
+
+.light-bulb.off {
+    filter: grayscale(1);
+    opacity: 0.35;
+    transform: scale(0.95);
+}
+
+
+/* ============================================================
+   LIGHT ON - STRONG GLOW
+   ============================================================ */
+
+.light-bulb.on {
+    filter: grayscale(0);
+    opacity: 1;
+
+    transform: scale(1.08);
+
+    position: relative;
+
+    text-shadow:
+        0 0 8px rgba(255, 230, 120, 1),
+        0 0 20px rgba(255, 220, 80, 0.9),
+        0 0 40px rgba(255, 210, 50, 0.8);
+
+    animation: lightGlow 1.5s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   LIGHT GLOW ANIMATION
+   ============================================================ */
+
+@keyframes lightGlow {
+
+    0% {
+        transform: scale(1);
+        filter:
+            grayscale(0)
+            drop-shadow(0 0 5px rgba(255, 220, 80, 0.5));
+    }
+
+    50% {
+        transform: scale(1.18);
+        filter:
+            grayscale(0)
+            drop-shadow(0 0 25px rgba(255, 220, 80, 1));
+    }
+
+    100% {
+        transform: scale(1);
+        filter:
+            grayscale(0)
+            drop-shadow(0 0 5px rgba(255, 220, 80, 0.5));
+    }
+}
+
+
+/* ============================================================
+   APPLIANCE INFORMATION
+   ============================================================ */
+
+.appliance-info {
+    flex: 1;
+}
+
+.appliance-type {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    opacity: 0.55;
+}
+
+.appliance-info h3 {
+    margin: 5px 0;
+}
+
+.appliance-info p {
+    margin: 0;
+    opacity: 0.65;
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   APPLIANCE STATUS
+   ============================================================ */
+
+.appliance-status {
+    min-width: 58px;
+
+    text-align: center;
+
+    padding: 8px 12px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    transition:
+        background 0.4s ease,
+        color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+/* OFF */
+
+.appliance-status.off {
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* ON */
+
+.appliance-status.on {
+    background: rgba(255, 220, 80, 0.15);
+    color: #ffe066;
+
+    box-shadow:
+        0 0 15px rgba(255, 220, 80, 0.2);
+}
+
+/* ============================================================
+   SMART HOME COMMAND MAPPING
+   ============================================================ */
+
+.command-mapping {
+    margin-top: 24px;
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(66, 217, 255, 0.035);
+
+    border:
+        1px solid rgba(66, 217, 255, 0.10);
+}
+
+
+.mapping-label {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.mapping-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+
+.mapping-button {
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.mapping-button:hover {
+    transform: translateY(-2px);
+
+    border-color:
+        rgba(66, 217, 255, 0.25);
+
+    color: var(--text);
+}
+
+
+.mapping-button.active {
+    background:
+        rgba(66, 217, 255, 0.12);
+
+    border-color:
+        rgba(66, 217, 255, 0.35);
+
+    color: var(--cyan-bright);
+
+    box-shadow:
+        0 0 20px rgba(66, 217, 255, 0.08);
+}
+
+
+#mappingText {
+    margin-top: 12px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   FAN VISUAL
+   ============================================================ */
+
+.fan-visual {
+    font-size: 52px;
+
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transition:
+        opacity 0.4s ease,
+        filter 0.4s ease,
+        transform 0.4s ease;
+}
+
+
+.fan-visual.off {
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transform: scale(0.95);
+}
+
+
+.fan-visual.on {
+    opacity: 1;
+
+    filter: grayscale(0)
+        drop-shadow(
+            0 0 18px
+            rgba(66, 217, 255, 0.55)
+        );
+
+    animation:
+        fanSpin 1.1s linear infinite;
+}
+
+
+@keyframes fanSpin {
+
+    from {
+        transform: rotate(0deg) scale(1.05);
+    }
+
+    to {
+        transform: rotate(360deg) scale(1.05);
+    }
+
+}
+
+
+/* ============================================================
+   TV VISUAL
+   ============================================================ */
+
+.tv-visual {
+    font-size: 52px;
+
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transition:
+        opacity 0.5s ease,
+        filter 0.5s ease,
+        transform 0.4s ease,
+        text-shadow 0.5s ease;
+}
+
+
+.tv-visual.off {
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transform: scale(0.95);
+}
+
+
+.tv-visual.on {
+    opacity: 1;
+
+    filter: grayscale(0);
+
+    transform: scale(1.08);
+
+    text-shadow:
+        0 0 8px rgba(66, 217, 255, 0.8),
+        0 0 20px rgba(66, 217, 255, 0.5),
+        0 0 35px rgba(66, 217, 255, 0.3);
+
+    animation:
+        tvPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes tvPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+}
+
+
+/* ============================================================
+   APPLIANCE ON/OFF TRANSITION
+   ============================================================ */
+
+.appliance {
+    transition:
+        border-color 0.4s ease,
+        background 0.4s ease,
+        box-shadow 0.4s ease,
+        transform 0.25s ease;
+}
+
+
+.appliance:has(.appliance-status.on) {
+
+    border-color:
+        rgba(66, 217, 255, 0.20);
+
+    background:
+        rgba(66, 217, 255, 0.045);
+
+    box-shadow:
+        0 0 30px rgba(66, 217, 255, 0.05);
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .appliance {
+        flex-wrap: wrap;
+
+        gap: 16px;
+    }
+
+    .appliance-info {
+        min-width: 150px;
+    }
+
+    .appliance-status {
+        margin-left: auto;
+    }
+
+    .mapping-buttons {
+        width: 100%;
+    }
+
+    .mapping-button {
+        flex: 1;
+    }
+
+}
+/* ============================================================
+   BCI COMMAND PANEL
+   ============================================================ */
+
+.bci-command-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 22px;
+    padding: 20px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(66, 217, 255, 0.07),
+            rgba(77, 124, 255, 0.04)
+        );
+
+    border:
+        1px solid rgba(66, 217, 255, 0.14);
+}
+
+
+.bci-command-panel h4 {
+    margin-top: 5px;
+
+    font-size: 22px;
+
+    color: var(--cyan-bright);
+
+    letter-spacing: 0.5px;
+}
+
+
+.bci-command-panel p {
+    margin-top: 5px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+}
+
+
+.command-indicator {
+    width: 16px;
+    height: 16px;
+
+    border-radius: 50%;
+
+    color: var(--text-muted);
+
+    font-size: 16px;
+
+    opacity: 0.35;
+}
+
+
+.command-indicator.active {
+    color: var(--green);
+
+    opacity: 1;
+
+    text-shadow:
+        0 0 12px rgba(66, 230, 164, 0.9);
+
+    animation: pulse 1.4s infinite;
+}
+
+
+/* ============================================================
+   PROTOTYPE COMMAND PANEL
+   ============================================================ */
+
+.demo-command-panel {
+    margin-top: 15px;
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+.demo-command-panel p {
+    margin: 5px 0 13px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+.command-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+.command-button {
+    padding: 9px 14px;
+
+    border-radius: 9px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease;
+}
+
+
+.command-button:hover {
+    transform: translateY(-2px);
+
+    border-color:
+        rgba(66, 217, 255, 0.25);
+
+    color: var(--text);
+}
+
+
+.command-button.active {
+    background:
+        rgba(66, 217, 255, 0.12);
+
+    border-color:
+        rgba(66, 217, 255, 0.35);
+
+    color: var(--cyan-bright);
+}
+
+
+.command-button.none-command.active {
+    background:
+        rgba(255, 100, 124, 0.08);
+
+    border-color:
+        rgba(255, 100, 124, 0.25);
+
+    color: var(--red);
+}
+
+
+/* ============================================================
+   FAN ANIMATION
+   ============================================================ */
+
+.fan-visual {
+    font-size: 52px;
+
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transition:
+        opacity 0.4s ease,
+        filter 0.4s ease,
+        transform 0.4s ease;
+}
+
+
+.fan-visual.off {
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transform: scale(0.95);
+}
+
+
+.fan-visual.on {
+    opacity: 1;
+
+    filter:
+        grayscale(0)
+        drop-shadow(
+            0 0 18px
+            rgba(66, 217, 255, 0.55)
+        );
+
+    animation:
+        fanSpin 1.1s linear infinite;
+}
+
+
+@keyframes fanSpin {
+
+    from {
+        transform: rotate(0deg) scale(1.05);
+    }
+
+    to {
+        transform: rotate(360deg) scale(1.05);
+    }
+
+}
+
+
+/* ============================================================
+   TV ANIMATION
+   ============================================================ */
+
+.tv-visual {
+    font-size: 52px;
+
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transition:
+        opacity 0.5s ease,
+        filter 0.5s ease,
+        transform 0.4s ease,
+        text-shadow 0.5s ease;
+}
+
+
+.tv-visual.off {
+    opacity: 0.32;
+
+    filter: grayscale(1);
+
+    transform: scale(0.95);
+}
+
+
+.tv-visual.on {
+    opacity: 1;
+
+    filter: grayscale(0);
+
+    transform: scale(1.08);
+
+    text-shadow:
+        0 0 8px rgba(66, 217, 255, 0.8),
+        0 0 20px rgba(66, 217, 255, 0.5),
+        0 0 35px rgba(66, 217, 255, 0.3);
+
+    animation:
+        tvPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes tvPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+}
+
+
+/* ============================================================
+   APPLIANCE ACTIVE STATE
+   ============================================================ */
+
+.appliance {
+    transition:
+        border-color 0.4s ease,
+        background 0.4s ease,
+        box-shadow 0.4s ease,
+        transform 0.25s ease;
+}
+
+
+.appliance:has(.appliance-status.on) {
+
+    border-color:
+        rgba(66, 217, 255, 0.20);
+
+    background:
+        rgba(66, 217, 255, 0.045);
+
+    box-shadow:
+        0 0 30px rgba(66, 217, 255, 0.05);
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .bci-command-panel {
+        gap: 15px;
+    }
+
+    .command-buttons {
+        width: 100%;
+    }
+
+    .command-button {
+        flex: 1;
+    }
+
+}
+
+/* ============================================================
+   EEG INTERACTIVE READOUT
+   ============================================================ */
+
+.eeg-readout {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 28px;
+
+    margin-top: 12px;
+
+    padding: 11px 14px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.05);
+
+    color:
+        var(--text-muted);
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.eeg-readout span {
+
+    display: flex;
+
+    gap: 7px;
+
+    align-items: center;
+
+}
+
+
+.eeg-readout strong {
+
+    color:
+        var(--cyan-bright);
+
+    font-size: 11px;
+
+    letter-spacing: 0;
+
+}
+
+/* ============================================================
+   3D NEURAL ENVIRONMENT
+   ============================================================ */
+
+.neural-background {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: -5;
+
+    perspective: 1000px;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(20, 120, 190, 0.18),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 15% 80%,
+            rgba(20, 90, 160, 0.16),
+            transparent 30%
+        ),
+        linear-gradient(
+            180deg,
+            #020713 0%,
+            #041322 48%,
+            #020711 100%
+        );
+}
+
+
+/* ============================================================
+   3D GRID
+   ============================================================ */
+
+.neural-grid {
+
+    position: absolute;
+
+    width: 180%;
+    height: 120%;
+
+    left: -40%;
+    top: 48%;
+
+    transform:
+        rotateX(68deg)
+        translateZ(-120px);
+
+    transform-origin: center;
+
+    background-image:
+        linear-gradient(
+            rgba(66, 217, 255, 0.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(66, 217, 255, 0.12) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        55px 55px;
+
+    opacity: 0.35;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 35%,
+            black 75%,
+            transparent 100%
+        );
+
+    transition:
+        transform 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* ============================================================
+   NEURAL WAVES
+   ============================================================ */
+
+.neural-wave {
+
+    position: absolute;
+
+    left: -15%;
+
+    width: 130%;
+    height: 320px;
+
+    border-radius: 50%;
+
+    border-top:
+        1px solid rgba(66, 217, 255, 0.35);
+
+    border-bottom:
+        1px solid rgba(66, 217, 255, 0.08);
+
+    filter:
+        drop-shadow(
+            0 0 18px rgba(66, 217, 255, 0.2)
+        );
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 1s cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* Individual layers */
+
+.wave-one {
+
+    top: 8%;
+
+    transform:
+        rotateX(65deg)
+        rotateZ(-5deg)
+        translateZ(-80px);
+
+    opacity: 0.55;
+}
+
+
+.wave-two {
+
+    top: 28%;
+
+    transform:
+        rotateX(65deg)
+        rotateZ(4deg)
+        translateZ(-180px);
+
+    opacity: 0.32;
+
+    border-color:
+        rgba(77, 124, 255, 0.35);
+}
+
+
+.wave-three {
+
+    top: 55%;
+
+    transform:
+        rotateX(65deg)
+        rotateZ(-3deg)
+        translateZ(-300px);
+
+    opacity: 0.2;
+}
+
+
+/* ============================================================
+   GLOWING NEURAL ORB
+   ============================================================ */
+
+.neural-background::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    left: 50%;
+    top: 28%;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(66, 217, 255, 0.16),
+            rgba(30, 120, 220, 0.05) 35%,
+            transparent 70%
+        );
+
+    filter: blur(10px);
+
+    animation:
+        neuralPulse 5s ease-in-out infinite;
+}
+
+
+@keyframes neuralPulse {
+
+    0%,
+    100% {
+        transform:
+            translate(-50%, -50%)
+            scale(0.92);
+
+        opacity: 0.55;
+    }
+
+    50% {
+        transform:
+            translate(-50%, -50%)
+            scale(1.08);
+
+        opacity: 1;
+    }
+}
+
+
+/* ============================================================
+   PARTICLE FIELD
+   ============================================================ */
+
+.neural-particles {
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.7;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(118, 231, 255, 0.9) 1px,
+            transparent 2px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(77, 124, 255, 0.7) 1px,
+            transparent 2px
+        );
+
+    background-size:
+        95px 95px,
+        145px 145px;
+
+    background-position:
+        20px 30px,
+        70px 100px;
+
+    animation:
+        particleDrift 18s linear infinite;
+
+    transition:
+        transform 1s ease-out;
+}
+
+
+@keyframes particleDrift {
+
+    from {
+        background-position:
+            20px 30px,
+            70px 100px;
+    }
+
+    to {
+        background-position:
+            120px 180px,
+            -80px -30px;
+    }
+}
+
+
+/* ============================================================
+   EXTRA DEPTH GLOW
+   ============================================================ */
+
+.neural-background::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    right: -300px;
+    bottom: -350px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(77, 124, 255, 0.16),
+            transparent 65%
+        );
+
+    filter: blur(40px);
+}
+
+
+/* ============================================================
+   KEEP CONTENT ABOVE BACKGROUND
+   ============================================================ */
+
+.navbar,
+.container,
+footer {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+/* ============================================================
+   THREE.JS 3D NEURAL BACKGROUND
+   ============================================================ */
+
+#neuro3d {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+/* Keep the actual NeuroHome interface above the 3D scene */
+
+.navbar,
+.container,
+footer {
+    position: relative;
+    z-index: 2;
+}
+
+/* Make cards slightly transparent so the environment
+   can be seen behind them */
+
+.card,
+.stat-card {
+    backdrop-filter: blur(18px);
+}

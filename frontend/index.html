@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NeuroHome | EEG BCI</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="brand">
+            <div class="brand-icon">🧠</div>
+
+            <div>
+                <h1>NeuroHome</h1>
+                <p>Intelligent EEG • BCI Platform</p>
+            </div>
+        </div>
+
+        <div class="system-status">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div>
+
+                <span class="eyebrow">
+                    AI-POWERED BRAIN COMPUTER INTERFACE
+                </span>
+
+                <h2>
+                    Understand the
+                    <span>Brain's Signals.</span>
+                </h2>
+
+                <p>
+                    NeuroHome analyzes ERP-based EEG signals using a
+                    deep-learning CNN to identify target and non-target
+                    brain responses.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DASHBOARD -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- EEG WAVEFORM -->
+
+            <div class="card waveform-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <span class="card-label">LIVE EEG SIGNAL</span>
+
+                        <h3>Neural Activity</h3>
+                    </div>
+
+                    <div class="channel-badge">
+                        64 CHANNELS
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="eegChart"></canvas>
+
+                </div>
+
+                <div class="eeg-readout">
+
+                <span>
+                    CURSOR TIME
+                    <strong id="cursorTime">--</strong>
+                </span>
+
+                <span>
+                    AMPLITUDE
+                    <strong id="cursorAmplitude">--</strong>
+                </span>
+
+                <span>
+                    SAMPLES
+                    <strong id="sampleCount">0</strong>
+                </span>
+
+            </div>
+
+                <div class="chart-footer">
+
+                    <span>Sampling Rate</span>
+                    <strong>256 Hz</strong>
+
+                    <span>Bandpass</span>
+                    <strong>0.1 – 30 Hz</strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREDICTION -->
+
+            <div class="card prediction-card">
+
+                <span class="card-label">AI PREDICTION</span>
+
+                <div id="predictionIcon" class="prediction-icon">
+                    🧠
+                </div>
+
+                <h3 id="predictionText">
+                    Awaiting EEG
+                </h3>
+
+                <p id="predictionDescription">
+                    Upload EEG data to begin analysis.
+                </p>
+
+                <div class="confidence-section">
+
+                    <div class="confidence-header">
+
+                        <span>Confidence</span>
+
+                        <strong id="confidenceValue">
+                            --%
+                        </strong>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            id="confidenceBar"
+                            class="progress"
+                            style="width: 0%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- UPLOAD -->
+
+        <section class="card upload-card">
+
+            <div class="upload-content">
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <div>
+
+                    <span class="card-label">
+                        EEG DATA INPUT
+                    </span>
+
+                    <h3>
+                        Upload your EEG recording
+                    </h3>
+
+                    <p>
+                        Select a compatible EEG dataset for
+                        preprocessing and prediction.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <input
+                type="file"
+                id="fileInput"
+                hidden
+            >
+
+            <button
+                class="primary-button"
+                onclick="document.getElementById('fileInput').click()"
+            >
+                Choose EEG File
+            </button>
+
+            <div id="fileName" class="file-name">
+                No file selected
+            </div>
+
+        </section>
+
+
+        <!-- MODEL STATS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>EEG CHANNELS</span>
+
+                <strong>64</strong>
+
+                <small>
+                    Multi-channel recording
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>SAMPLING RATE</span>
+
+                <strong>256 Hz</strong>
+
+                <small>
+                    ERP signal resolution
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>MODEL</span>
+
+                <strong>CNN</strong>
+
+                <small>
+                    SpatialDropout architecture
+                </small>
+
+            </div>
+
+
+            <div class="stat-card highlight">
+
+                <span>TEST ACCURACY</span>
+
+                <strong>83.74%</strong>
+
+                <small>
+                    Held-out subjects
+                </small>
+
+            </div>
+
+        </section>
+
+
+
+<!-- ============================================================
+     SMART HOME CONTROL
+     ============================================================ -->
+
+<section class="card smart-home-card">
+
+    <div class="card-header">
+
+        <div>
+            <span class="card-label">
+                SMART HOME CONTROL
+            </span>
+
+            <h3>
+                Living Room
+            </h3>
+        </div>
+
+        <div class="home-status">
+            AI CONTROLLED
+        </div>
+
+    </div>
+
+
+    <!-- BCI COMMAND -->
+
+    <div class="bci-command-panel">
+
+        <div>
+
+            <span class="mapping-label">
+                BCI COMMAND
+            </span>
+
+            <h4 id="bciCommand">
+                NO COMMAND
+            </h4>
+
+            <p id="bciCommandDescription">
+                Waiting for an intentional EEG command...
+            </p>
+
+        </div>
+
+        <div class="command-indicator" id="commandIndicator">
+            ●
+        </div>
+
+    </div>
+
+
+    <!-- DEMO COMMAND CONTROLS -->
+
+    <div class="demo-command-panel">
+
+        <span class="mapping-label">
+            PROTOTYPE COMMAND TEST
+        </span>
+
+        <p>
+            Use these controls only to test appliance animations.
+            Actual EEG command classification will be connected later.
+        </p>
+
+        <div class="command-buttons">
+
+            <button
+                class="command-button"
+                data-command="LIGHT"
+            >
+                💡 Light
+            </button>
+
+            <button
+                class="command-button"
+                data-command="FAN"
+            >
+                🌀 Fan
+            </button>
+
+            <button
+                class="command-button"
+                data-command="TV"
+            >
+                📺 TV
+            </button>
+
+            <button
+                class="command-button none-command"
+                data-command="NONE"
+            >
+                ✕ Stop
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- LIGHT -->
+
+    <div class="appliance" id="lightAppliance">
+
+        <div class="appliance-visual">
+
+            <div
+                id="lightBulb"
+                class="light-bulb off"
+            >
+                💡
+            </div>
+
+        </div>
+
+        <div class="appliance-info">
+
+            <span class="appliance-type">
+                LIGHT
+            </span>
+
+            <h3>
+                Living Room Light
+            </h3>
+
+            <p id="lightStatusText">
+                Waiting for BCI command...
+            </p>
+
+        </div>
+
+        <div
+            id="lightStatus"
+            class="appliance-status off"
+        >
+            OFF
+        </div>
+
+    </div>
+
+
+    <!-- FAN -->
+
+    <div class="appliance" id="fanAppliance">
+
+        <div class="appliance-visual">
+
+            <div
+                id="fanVisual"
+                class="fan-visual off"
+            >
+                🌀
+            </div>
+
+        </div>
+
+        <div class="appliance-info">
+
+            <span class="appliance-type">
+                FAN
+            </span>
+
+            <h3>
+                Ceiling Fan
+            </h3>
+
+            <p id="fanStatusText">
+                Waiting for BCI command...
+            </p>
+
+        </div>
+
+        <div
+            id="fanStatus"
+            class="appliance-status off"
+        >
+            OFF
+        </div>
+
+    </div>
+
+
+    <!-- TV -->
+
+    <div class="appliance" id="tvAppliance">
+
+        <div class="appliance-visual">
+
+            <div
+                id="tvVisual"
+                class="tv-visual off"
+            >
+                📺
+            </div>
+
+        </div>
+
+        <div class="appliance-info">
+
+            <span class="appliance-type">
+                TELEVISION
+            </span>
+
+            <h3>
+                Smart TV
+            </h3>
+
+            <p id="tvStatusText">
+                Waiting for BCI command...
+            </p>
+
+        </div>
+
+        <div
+            id="tvStatus"
+            class="appliance-status off"
+        >
+            OFF
+        </div>
+
+    </div>
+
+</section>
+        <!-- MODEL INFORMATION -->
+
+        <section class="card model-card">
+
+            <div>
+
+                <span class="card-label">
+                    NEUROHOME MODEL
+                </span>
+
+                <h3>
+                    SpatialDropout CNN
+                </h3>
+
+                <p>
+                    Three convolutional feature-extraction blocks
+                    followed by SpatialDropout regularization and
+                    fully connected classification.
+                </p>
+
+            </div>
+
+            <div class="architecture">
+
+                <span>EEG</span>
+                <i>→</i>
+
+                <span>CNN</span>
+                <i>→</i>
+
+                <span>SpatialDropout</span>
+                <i>→</i>
+
+                <span>Classifier</span>
+                <i>→</i>
+
+                <span>Target</span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            NeuroHome • EEG-Based Intelligent BCI Research Prototype
+        </p>
+
+        <span>
+            Research Prototype
+        </span>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
