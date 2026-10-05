@@ -1,12 +1,18 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import tensorflow as tf
 import numpy as np
 import json
 import os
 import mne
 import tempfile
+try:
+    tf.config.set_visible_devices([], "GPU")
+except:
+    pass
 
 
 # ============================================================
