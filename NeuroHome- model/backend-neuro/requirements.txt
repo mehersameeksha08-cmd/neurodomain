@@ -2,5 +2,6 @@ fastapi
 uvicorn[standard]
 python-multipart
 numpy
+pandas
 mne
 tensorflow
