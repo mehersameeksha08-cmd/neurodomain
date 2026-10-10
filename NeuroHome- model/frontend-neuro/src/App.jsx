@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from "react";
 import RealHome3D from "./RealHome3D";
 
-const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";const MODEL = { accuracy:"70.07%", balanced:"69.25%", targetF1:"43.59%", threshold:"0.40", channels:32, runs:6, epochs:838, window:"100–700 ms" };
-
+const API = import.meta.env.VITE_API_URL || "https://neurohome-backend.onrender.com";
 const DEVICES = [
   { id:"light", name:"Light" },
   { id:"telephone", name:"Telephone" },
