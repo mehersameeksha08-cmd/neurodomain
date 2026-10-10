@@ -5,7 +5,7 @@
 // Smart-home command layer
 // ============================================================
 
-const API_URL = "https://neurodomain-backend.onrender.com";
+const API_URL = "https://neurohome-backend.onrender.com";
 
 
 // ============================================================
